@@ -22,16 +22,12 @@ type internal interface {
 
 func ValidationErrorf(format string, a ...interface{}) *ValidationError {
 	return &ValidationError{
-		msg: fmt.Sprintf(format, a...),
+		bareError: bareErrorf(statusInput, format, a...),
 	}
 }
 
 type ValidationError struct {
-	msg string
-}
-
-func (e *ValidationError) Error() string {
-	return e.msg
+	*bareError
 }
 
 func bareErrorf(status status, format string, a ...interface{}) *bareError {
