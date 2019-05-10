@@ -55,6 +55,16 @@ func (h *HTML) mustParseTemplates() {
 					},
 				},
 			},
+			"menu.show": &caster.TemplateSet{
+				Filenames: []string{
+					htmlTemplate("menu/single.html"),
+				},
+				FuncMap: template.FuncMap{
+					"add": func(a, b int) int {
+						return a + b
+					},
+				},
+			},
 		},
 	); err != nil {
 		panic(err)

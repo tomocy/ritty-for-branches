@@ -10,8 +10,12 @@
 <div class="container ritty-container">
     {{ template "header" . }}
 
-    <form action="/menus" method="POST" id="menu-form" class="menu-form" enctype="multipart/form-data">
+    <form {{ if .Action }} action="{{ . }}" {{ else }} action="/menus" {{ end }} method="POST" id="menu-form"
+        class="menu-form" enctype="multipart/form-data">
         {{ template "error" }}
+        {{ with .Method }}
+        <input type="hidden" name="_method" value="{{ . }}">
+        {{ end }}
         <div class="form-group">
             <input type="text" name="category_name" class="form-control" placeholder="Menu category name"
                 {{ with .Category.Name }} value="{{ . }}" {{ end }} required>
@@ -58,7 +62,7 @@
         <div class="combo-category-list-container">
             <ul id="combo-category-list" class="combo-category-list">
                 {{ $CategoryID := -1 }}
-                {{ range $Category, $Combos := .Menu.CategorizedCombo }}
+                {{ range $Category, $Combos := .Menu.CategorizedCombos }}
                 {{ $CategoryID = add $CategoryID 1 }}
                 <li class="combo-category-list-item">
                     <div id="combo-category-{{ $CategoryID }}" class="combo-category">
@@ -116,8 +120,8 @@
                     <h1 class="ritty-btn-box-title">Save</h1>
                 </button>
             </li>
-            <li class="col-6" {{ if .Menu.ID }} {{ else }} hidden {{ end }}>
-                <div {{ if .Menu.ID }} id="delete-menu-btn" {{ end }} class="ritty-btn-box delete-menu-btn">
+            <li class="col-6" {{ if .Menu.Name }} {{ else }} hidden {{ end }}>
+                <div {{ if .Menu.Name }} id="delete-menu-btn" {{ end }} class="ritty-btn-box delete-menu-btn">
                     <h1 class="ritty-btn-box-title delete-menu-btn-title">Delete</h1>
                 </div>
             </li>

@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"strconv"
 
+	"github.com/go-chi/chi"
 	"github.com/thedevsaddam/govalidator"
 	derr "github.com/tomocy/ritty-for-branches/domain/error"
 	"github.com/tomocy/ritty-for-branches/domain/model"
@@ -204,4 +205,41 @@ func convertRequestToCombos(r *http.Request, key string) ([]*model.Combo, error)
 	}
 
 	return combos, nil
+}
+
+func (h *branchHandler) ShowMenu(w http.ResponseWriter, r *http.Request) {
+	id, err := session.FindAuthenticBranch(r)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	branch, err := h.repo.FindBranch(id)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	cname := chi.URLParam(r, "category_name")
+	category, err := branch.FindMenuCategory(cname)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	name := chi.URLParam(r, "name")
+	menu, err := branch.FindMenu(category, name)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	if err := h.view.Show(w, "menu.show", map[string]interface{}{
+		"Category": category,
+		"Menu":     menu,
+		"Error":    session.GetErrorMessage(w, r),
+		"Action":   fmt.Sprintf("/%s/%s", category.Name, menu.Name),
+		"Method":   "PUT",
+	}); err != nil {
+		logInternalServerError(w, "show menu", err)
+		return
+	}
 }

@@ -19,6 +19,16 @@ func (b *Branch) RegisterMenu(c MenuCategory, menu *Menu) error {
 	return nil
 }
 
+func (b *Branch) FindMenuCategory(name string) (MenuCategory, error) {
+	for stored := range b.CategorizedMenus {
+		if stored.Name == name {
+			return stored, nil
+		}
+	}
+
+	return MenuCategory{}, validationErrorf("find menu category", "no such menu")
+}
+
 func (b *Branch) FindMenu(c MenuCategory, name string) (*Menu, error) {
 	storeds := b.CategorizedMenus[c]
 	for _, stored := range storeds {

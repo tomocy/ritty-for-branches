@@ -2,6 +2,7 @@ package registerer
 
 import (
 	"net/http"
+	"path"
 
 	"github.com/go-chi/chi"
 	"github.com/tomocy/ritty-for-branches/infra/http/middleware"
@@ -28,6 +29,7 @@ func (r *WebRegisterer) RegisterRoutes(router chi.Router) {
 		router.Get(route.Web.Route("menu.index").Path, r.handler.ShowMenus)
 		router.Get(route.Web.Route("menu.new").Path, r.handler.ShowMenuRegistrationForm)
 		router.Post(route.Web.Route("menu.create").Path, r.handler.RegisterMenu)
+		router.Get(path.Join(route.Web.Route("menu.show").Path, "{category_name}", "{name}"), r.handler.ShowMenu)
 	})
 
 	router.Group(func(router chi.Router) {
