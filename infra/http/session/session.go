@@ -1,6 +1,7 @@
 package session
 
 import (
+	"errors"
 	"log"
 	"net/http"
 
@@ -8,6 +9,53 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/tomocy/sensei"
 )
+
+func KeepBranchAuthenticated(w http.ResponseWriter, r *http.Request, id string) {
+	if err := manager.Set(w, r, authenticBranchID, id); err != nil {
+		logError("keep branch authenticated", err)
+	}
+}
+
+func IsBranchAuthenticated(r *http.Request) bool {
+	_, err := FindAuthenticBranch(r)
+	return err == nil
+}
+
+func FindAuthenticBranch(r *http.Request) (string, error) {
+	i, err := manager.Get(r, authenticBranchID)
+	if err != nil {
+		return "", err
+	}
+	if s, ok := i.(string); ok && s != "" {
+		return s, nil
+	}
+
+	return "", errors.New("no authentic branch")
+}
+
+func KeepIntendedURL(w http.ResponseWriter, r *http.Request, url string) {
+	if err := manager.Set(w, r, intendedURL, url); err != nil {
+		logError("keep intended url", err)
+	}
+}
+
+func FindIntendedURL(r *http.Request) (string, error) {
+	i, err := manager.Get(r, intendedURL)
+	if err != nil {
+		return "", err
+	}
+	if s, ok := i.(string); ok && s != "" {
+		return s, nil
+	}
+
+	return "", errors.New("no intended url")
+}
+
+func RemoveIntendedURL(w http.ResponseWriter, r *http.Request) {
+	if err := manager.Remove(w, r, intendedURL); err != nil {
+		logError("remove intended url", err)
+	}
+}
 
 func IsSessionValid(r *http.Request) bool {
 	_, err := manager.Session(r)
@@ -31,6 +79,10 @@ var store = sessions.NewCookieStore(
 
 const (
 	key = "RittyForBranches"
+
+	authenticBranchID = "authentic_branch_id"
+
+	intendedURL = "intended_url"
 )
 
 func logError(did string, msg interface{}) {

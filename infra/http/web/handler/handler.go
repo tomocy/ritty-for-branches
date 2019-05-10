@@ -15,7 +15,7 @@ func New(
 	authorizationServ service.AuthorizationService,
 ) *Handler {
 	return &Handler{
-		authorizationHandler: newAuthorizationHandler(authorizationServ),
+		authorizationHandler: newAuthorizationHandler(branchRepo, authorizationServ),
 		branchHandler:        newBranchHandler(view, branchRepo),
 	}
 }

@@ -37,8 +37,10 @@ var (
 	webRaw = route.RawMap{
 		"menu.new":               "/menus/new",
 		"authorization_code.new": "/services/ritty/branch/auth/authorization_codes/new",
+		"authorization.new":      "/services/ritty/branch/auth/authorizations/new",
 	}
 	rittyBranchAuthAPIRaw = route.RawMap{
 		"authorization.prepare": "/api/authorizations",
+		"authorization.create":  "/api/authorizations",
 	}
 )
