@@ -5,8 +5,8 @@ import "github.com/spf13/viper"
 var Current *Config
 
 type Config struct {
-	Self       *Server
-	BranchAuth struct {
+	Self            *Server
+	RittyBranchAuth struct {
 		Host         string
 		Port         string
 		ClientID     string

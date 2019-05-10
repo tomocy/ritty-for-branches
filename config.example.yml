@@ -2,7 +2,7 @@ self:
   host:
   port:
 
-branchAuth:
+rittyBranchAuth:
   host:
   port:
   clientID:
