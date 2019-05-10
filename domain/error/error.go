@@ -40,4 +40,10 @@ func newBareError() *bareError {
 
 type bareError struct{}
 
+const (
+	_ status = iota
+	statusInput
+	statusInternal
+)
+
 type status int
