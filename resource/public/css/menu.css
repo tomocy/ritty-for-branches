@@ -1,0 +1,50 @@
+/* Menu */
+.menu {
+  width: 100%;
+  height: 140px;
+  box-sizing: content-box;
+  cursor: pointer;
+  margin: 0;
+}
+
+.menu-txt-container,
+.menu-img-container {
+  padding: 0;
+}
+
+.menu-txt-container {
+  position: relative;
+}
+
+.menu-name,
+.menu-price {
+  width: calc(100% - 10px);
+  position: absolute;
+  left: 10px;
+  color: #000000;
+  font-size: 16px;
+  margin: 0;
+}
+
+.menu-name {
+  top: 5px;
+}
+
+.menu-price {
+  bottom: 5px;
+}
+
+.menu-price-currency {
+  margin-right: 5px;
+}
+
+
+.menu-img {
+  height: 100%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 0;
+}
+
+/* /Menu */

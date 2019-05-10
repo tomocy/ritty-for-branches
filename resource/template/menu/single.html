@@ -1,0 +1,131 @@
+{{ define "css" }}
+<link rel="stylesheet" href="/css/ritty.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/menu.css">
+<link rel="stylesheet" href="/css/menu/single.css">
+{{ end }}
+
+{{ define "content" }}
+
+<div class="container ritty-container">
+    {{ template "header" . }}
+
+    <form action="/menus" method="POST" id="menu-form" class="menu-form" enctype="multipart/form-data">
+        {{ template "error" }}
+        <div class="form-group">
+            <input type="text" name="category_name" class="form-control" placeholder="Menu category name"
+                {{ with .Category.Name }} value="{{ . }}" {{ end }} required>
+        </div>
+        <div class="form-group">
+            <div class="row menu">
+                <div class="col-8 menu-txt-container">
+                    <p class="menu-name">
+                        <input type="text" name="name" class="form-control" placeholder="Menu name"
+                            {{ with .Menu.Name }} value="{{ . }}" {{ end }} required>
+                    </p>
+                    <p class="menu-price">
+                        <span class="menu-price-currency">JPY</span><input type="text" name="price"
+                            class="form-control price-input" placeholder="Menu price" {{ with .Menu.Price }}
+                            value="{{ . }}" {{ end }} required>
+                    </p>
+                </div>
+                <div class="col-4 ritty-btn-border">
+                    <label for="img-input" class="img-input-label menu-img" {{ with .Menu.ImagePath }}
+                        style="background-image: url('{{ . }}');" {{ end }}>
+                        <h1 class="ritty-btn-border-title" {{ if .Menu.ImagePath }} hidden {{ end }}>+ Add menu image
+                        </h1>
+                    </label>
+                    <input type="file" name="image" class="form-control-file d-none" id="img-input">
+                </div>
+            </div>
+        </div>
+        <div class="form-group description-input-container">
+            <div>
+                <textarea name="description" id="description-input" class="form-control"
+                    placeholder="Menu description">{{ with .Menu.Description }} {{ . }} {{ end }}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <select name="availability" class="custom-select" required>
+                <option value="0" {{ with .Menu.Availability }} {{ if eq . 0 }} selected {{ end }} {{ end }}>Both
+                    available</option>
+                <option value="1" {{ with .Menu.Availability }} {{ if eq . 1 }} selected {{ end }} {{ end }}>Only For
+                    here</option>
+                <option value="2" {{ with .Menu.Availability }} {{ if eq . 2 }} selected {{ end }} {{ end }}>Only To go
+                </option>
+            </select>
+        </div>
+        <div class="combo-category-list-container">
+            <ul id="combo-category-list" class="combo-category-list">
+                {{ $CategoryID := -1 }}
+                {{ range $Category, $Combos := .Menu.CategorizedCombo }}
+                {{ $CategoryID = add $CategoryID 1 }}
+                <li class="combo-category-list-item">
+                    <div id="combo-category-{{ $CategoryID }}" class="combo-category">
+                        <input type="text" name="combo_category[]" hidden>
+                        <div class="form-group">
+                            <input type="text" name="combo_category[{{ $CategoryID }}][name]" class="form-control"
+                                placeholder="Combo category name" value="{{ $Category.Name }}">
+                        </div>
+                        <div class="form-group">
+                            <select name="combo_category[{{ $CategoryID }}][condition]" class="custom-select">
+                                <option value="0" {{ if eq $Category.Condition 0 }} selected {{ end }}>Required</option>
+                                <option value="1" {{ if eq $Category.Condition 1 }} selected {{ end }}>Chose up to 1
+                                </option>
+                            </select>
+                        </div>
+                        <div class="combo-list-container">
+                            <ul class="combo-list">
+                                {{ $ComboID := -1 }}
+                                {{ range . }}
+                                {{ $ComboID = add $ComboID 1 }}
+                                <li class="combo-list-item">
+                                    <input type="text" name="combo_category[{{ $CategoryID }}][combo][]" hidden>
+                                    <div class="form-group">
+                                        <input type="text"
+                                            name="combo_category[{{ $CategoryID }}][combo][{{ $ComboID }}][name]"
+                                            class="form-control" placeholder="Combo name" {{ with . }}
+                                            value="{{ .Name }}" {{ end }}>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="menu-price-currency">+ JPY</span><input type="text"
+                                            name="combo_category[{{ $CategoryID }}][combo][{{ $ComboID }}][price]"
+                                            class="form-control combo-price-input" placeholder="Combo price"
+                                            {{ with . }} value="{{ .Price }}" {{ end }}>
+                                    </div>
+                                </li>
+                                {{ end }}
+                            </ul>
+                            <div class="ritty-btn-border add-combo-btn" data-combo-category-id="{{ $CategoryID }}"
+                                data-last-combo-id="{{ $ComboID }}">
+                                <h1 class="ritty-btn-border-title add-combo-btn-title">+ Add combo</h1>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {{ end }}
+            </ul>
+            <div id="add-combo-category-btn" class="ritty-btn-border add-combo-category-btn"
+                data-last-combo-category-id="{{ $CategoryID }}">
+                <h1 class="ritty-btn-border-title add-combo-category-btn-title">+ Add combo category</h1>
+            </div>
+        </div>
+        <ul class="row justify-content-center btn-list">
+            <li class="col-6">
+                <button type="submit" id="save-menu-btn" class="ritty-btn-box">
+                    <h1 class="ritty-btn-box-title">Save</h1>
+                </button>
+            </li>
+            <li class="col-6" {{ if .Menu.ID }} {{ else }} hidden {{ end }}>
+                <div {{ if .Menu.ID }} id="delete-menu-btn" {{ end }} class="ritty-btn-box delete-menu-btn">
+                    <h1 class="ritty-btn-box-title delete-menu-btn-title">Delete</h1>
+                </div>
+            </li>
+        </ul>
+    </form>
+</div>
+{{ end }}
+
+{{ define "js" }}
+<script src="/js/menu/single.js"></script>
+{{ end }}

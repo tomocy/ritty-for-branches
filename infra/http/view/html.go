@@ -1,6 +1,7 @@
 package view
 
 import (
+	"html/template"
 	"net/http"
 	"path/filepath"
 
@@ -42,6 +43,11 @@ func (h *HTML) mustParseTemplates() {
 			"menu.new": &caster.TemplateSet{
 				Filenames: []string{
 					htmlTemplate("menu/single.html"),
+				},
+				FuncMap: template.FuncMap{
+					"add": func(a, b int) int {
+						return a + b
+					},
 				},
 			},
 		},

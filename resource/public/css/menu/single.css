@@ -1,0 +1,83 @@
+.menu-form {
+  margin: 0;
+  padding: 30px 0 40px 0;
+}
+
+.price-input {
+  width: calc(100% - 36px);
+  display: inline-block;
+}
+
+.img-input-label {
+  width: 100%;
+  cursor: pointer;
+  margin: 0;
+}
+
+.menu-img {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.description-input-container {
+  margin-top: 60px;
+}
+
+.combo-category-list-container,
+.combo-list-container {
+  padding: 0 10px;
+}
+
+.combo-category-list,
+.combo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.combo-category-list-item {
+  margin-top: 80px;
+}
+
+.combo-list-item {
+  margin-top: 40px;
+}
+
+.combo-price-input {
+  width: calc(100% - 48px);
+  display: inline-block;
+}
+
+.add-combo-category-btn,
+.add-combo-btn {
+  height: 60px;
+}
+
+.add-combo-category-btn {
+  margin-top: 60px;
+}
+
+.add-combo-btn {
+  margin-top: 40px;
+}
+
+.add-combo-category-btn-title,
+.add-combo-btn-title {
+  line-height: 60px;
+}
+
+.btn-list {
+  list-style: none;
+  margin: 0;
+  margin-top: 40px;
+  padding: 0;
+}
+
+.delete-menu-btn:hover {
+  background-color: #ffffff;
+  border: 1px solid #dd3333;
+  color: #dd3333;
+}
