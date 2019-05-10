@@ -1,0 +1,51 @@
+{{ define "css" }}
+<link rel="stylesheet" href="/css/ritty.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/menu.css">
+<link rel="stylesheet" href="/css/menu/index.css">
+{{ end }}
+
+{{ define "content" }}
+<div class="container ritty-container">
+    {{ template "header" . }}
+
+    <div class="menu-category-list-container">
+        <h1 class="menu-category-list-title">Menus</h1>
+        <ul class="menu-category-list">
+            {{ range $Category, $Menus := .Branch.CategorizedMenus }}
+            <li class="menu-category-list-item menu-category-list-item-top">
+                <h1 class="menu-category-title">{{ $Category.Name }}</h1>
+                <ul class="row menu-list">
+                    {{ range $Menus }}
+                    <li class="col-12 col-sm-6 col-md-4 menu-list-item">
+                        <a href="">
+                            <div class="row menu">
+                                <div class="col-8 menu-txt-container">
+                                    <p class="menu-name">{{ .Name }}</p>
+                                    <p class="menu-price"><span class="menu-price-currency">JPY</span>{{ .Price }}</p>
+                                </div>
+                                <div class="col-4 menu-img-container">
+                                    <div class="menu-img" style="background-image: url('{{ .ImagePath }}');"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    {{ end }}
+
+                    <li class="col-12 col-sm-6 col-md-4 menu-list-item">
+                        <div class="ritty-btn-border add-menu-btn">
+                            <a href="/menus/new?category_name={{ $Category.Name }}" class="text-decoration-none">
+                                <h1 class="ritty-btn-border-title add-menu-btn-title">+ Add menu</h1>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            {{ end }}
+        </ul>
+    </div>
+</div>
+{{ end }}
+
+{{ define "js" }}
+{{ end }}
