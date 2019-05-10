@@ -18,7 +18,7 @@
                 <ul class="row menu-list">
                     {{ range $Menus }}
                     <li class="col-12 col-sm-6 col-md-4 menu-list-item">
-                        <a href="">
+                        <a href="/menus/{{ $Category.Name }}/{{ .Name }}">
                             <div class="row menu">
                                 <div class="col-8 menu-txt-container">
                                     <p class="menu-name">{{ .Name }}</p>
