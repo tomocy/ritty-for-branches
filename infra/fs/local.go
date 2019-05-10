@@ -28,8 +28,7 @@ func (l *Local) SaveImage(image io.ReadCloser, ext string) (string, error) {
 	defer file.Close()
 
 	io.Copy(file, image)
-
-	return strings.TrimPrefix(path, filepath.Join(projPath, "public")), nil
+	return strings.TrimPrefix(path, filepath.Join(projPath, "resource/public")), nil
 }
 
 const imageDir = "resource/public/image"
