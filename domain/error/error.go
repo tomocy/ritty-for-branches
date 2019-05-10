@@ -31,10 +31,14 @@ type ValidationError struct {
 }
 
 func DevErrorf(format string, a ...interface{}) *DevError {
-	return new(DevError)
+	return &DevError{
+		bareError: bareErrorf(statusInternal, format, a...),
+	}
 }
 
-type DevError struct{}
+type DevError struct {
+	*bareError
+}
 
 func bareErrorf(status status, format string, a ...interface{}) *bareError {
 	return &bareError{
