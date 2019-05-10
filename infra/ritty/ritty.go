@@ -4,4 +4,6 @@ func New() *Ritty {
 	return new(Ritty)
 }
 
-type Ritty struct{}
+type Ritty struct {
+	*branchAuth
+}

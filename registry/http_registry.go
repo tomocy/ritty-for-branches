@@ -1,8 +1,10 @@
 package registry
 
 import (
+	"github.com/tomocy/ritty-for-branches/infra/db"
 	"github.com/tomocy/ritty-for-branches/infra/http/view"
 	"github.com/tomocy/ritty-for-branches/infra/http/web/handler"
+	"github.com/tomocy/ritty-for-branches/infra/ritty"
 )
 
 func NewHTTPRegistry() *HTTPRegistry {
@@ -21,14 +23,18 @@ func (r *HTTPRegistry) NewWebHandler() *handler.Handler {
 
 func newHTTPWebRegistry() *httpWebRegistry {
 	return &httpWebRegistry{
-		view: view.NewHTML(),
+		db:    db.NewMemory(),
+		ritty: ritty.New(),
+		view:  view.NewHTML(),
 	}
 }
 
 type httpWebRegistry struct {
-	view *view.HTML
+	db    *db.Memory
+	ritty *ritty.Ritty
+	view  *view.HTML
 }
 
 func (r *httpWebRegistry) newHandler() *handler.Handler {
-	return handler.New(r.view)
+	return handler.New(r.view, r.db, r.ritty)
 }

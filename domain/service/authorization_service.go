@@ -1,3 +1,7 @@
 package service
 
-type AuthorizationService interface{}
+import "net/url"
+
+type AuthorizationService interface {
+	BuildAuthorizationCodeURL() *url.URL
+}

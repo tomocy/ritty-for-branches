@@ -6,7 +6,13 @@ var Current *Config
 
 type Config struct {
 	Self       *Server
-	BranchAuth *Server
+	BranchAuth struct {
+		Host         string
+		Port         string
+		ClientID     string
+		ClientSecret string
+		RedirectURI  string
+	}
 }
 
 type Server struct {

@@ -1,3 +1,10 @@
 self:
   host:
   port:
+
+branchAuth:
+  host:
+  port:
+  clientID:
+  clientSecret:
+  redirectURI:
