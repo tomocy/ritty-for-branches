@@ -40,6 +40,7 @@ var (
 		"menu.create":            "/menus",
 		"menu.show":              "/menus",
 		"menu.update":            "/menus",
+		"menu.delete":            "/menus",
 		"authorization_code.new": "/services/ritty/branch/auth/authorization_codes/new",
 		"authorization.new":      "/services/ritty/branch/auth/authorizations/new",
 	}
