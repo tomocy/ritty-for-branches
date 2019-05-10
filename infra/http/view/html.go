@@ -1,6 +1,7 @@
 package view
 
 import (
+	"net/http"
 	"path/filepath"
 
 	"github.com/tomocy/caster"
@@ -15,6 +16,10 @@ func NewHTML() *HTML {
 
 type HTML struct {
 	caster caster.Caster
+}
+
+func (h *HTML) Show(w http.ResponseWriter, name string, data interface{}) error {
+	return h.caster.Cast(w, name, data)
 }
 
 func (h *HTML) mustParseTemplates() {
@@ -33,7 +38,13 @@ func (h *HTML) mustParseTemplates() {
 	}
 
 	if err := h.caster.ExtendAll(
-		map[string]*caster.TemplateSet{},
+		map[string]*caster.TemplateSet{
+			"menu.new": &caster.TemplateSet{
+				Filenames: []string{
+					htmlTemplate("menu/single.html"),
+				},
+			},
+		},
 	); err != nil {
 		panic(err)
 	}
