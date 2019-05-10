@@ -1,7 +1,15 @@
 package error
 
-func NewValidationError() *ValidationError {
-	return new(ValidationError)
+func NewValidationError(msg string) *ValidationError {
+	return &ValidationError{
+		msg: msg,
+	}
 }
 
-type ValidationError struct{}
+type ValidationError struct {
+	msg string
+}
+
+func (e *ValidationError) Error() string {
+	return e.msg
+}
