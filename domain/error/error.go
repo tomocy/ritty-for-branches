@@ -1,8 +1,10 @@
 package error
 
-func NewValidationError(msg string) *ValidationError {
+import "fmt"
+
+func ValidationErrorf(format string, a ...interface{}) *ValidationError {
 	return &ValidationError{
-		msg: msg,
+		msg: fmt.Sprintf(format, a...),
 	}
 }
 
