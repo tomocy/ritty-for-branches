@@ -55,7 +55,14 @@ func (h *branchHandler) ShowMenus(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *branchHandler) ShowMenuRegistrationForm(w http.ResponseWriter, r *http.Request) {
-	if err := h.view.Show(w, "menu.new", nil); err != nil {
+	cname := r.URL.Query().Get("category_name")
+	category := model.MenuCategory{
+		Name: cname,
+	}
+
+	if err := h.view.Show(w, "menu.new", map[string]interface{}{
+		"Category": category,
+	}); err != nil {
 		logInternalServerError(w, "show branch menu registration form", err)
 	}
 }
