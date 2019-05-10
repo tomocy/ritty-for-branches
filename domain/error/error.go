@@ -33,3 +33,9 @@ type ValidationError struct {
 func (e *ValidationError) Error() string {
 	return e.msg
 }
+
+func newBareError() *bareError {
+	return new(bareError)
+}
+
+type bareError struct{}
