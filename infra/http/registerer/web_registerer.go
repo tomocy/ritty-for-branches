@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"path"
 
+	"github.com/tomocy/chme"
+
 	"github.com/go-chi/chi"
 	"github.com/tomocy/ritty-for-branches/infra/http/middleware"
 	"github.com/tomocy/ritty-for-branches/infra/http/route"
@@ -21,7 +23,10 @@ type WebRegisterer struct {
 }
 
 func (r *WebRegisterer) RegisterRoutes(router chi.Router) {
-	router.Use(middleware.RenewInvalidSession)
+	router.Use(
+		middleware.RenewInvalidSession,
+		chme.ChangePostToHiddenMethod,
+	)
 	router.Get("/*", http.FileServer(http.Dir("resource/public")).ServeHTTP)
 
 	router.Group(func(router chi.Router) {
@@ -30,6 +35,7 @@ func (r *WebRegisterer) RegisterRoutes(router chi.Router) {
 		router.Get(route.Web.Route("menu.new").Path, r.handler.ShowMenuRegistrationForm)
 		router.Post(route.Web.Route("menu.create").Path, r.handler.RegisterMenu)
 		router.Get(path.Join(route.Web.Route("menu.show").Path, "{category_name}", "{name}"), r.handler.ShowMenu)
+		router.Put(path.Join(route.Web.Route("menu.update").Path, "{category_name}", "{name}"), r.handler.UpdateMenu)
 	})
 
 	router.Group(func(router chi.Router) {
