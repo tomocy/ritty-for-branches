@@ -4,10 +4,13 @@ import (
 	"fmt"
 	"path"
 
+	"github.com/tomocy/ritty-for-branches/config"
 	"github.com/tomocy/route"
 )
 
-func MapRoutes() {}
+func MapRoutes() {
+	mapRoutes(Web, webRaw, config.Current.Self.Host, config.Current.Self.Port)
+}
 
 func mapRoutes(routeMap route.RouteMap, rawMap route.RawMap, host, port string) {
 	makePathsAbsolute(rawMap, host, port)
@@ -23,3 +26,11 @@ func makePathsAbsolute(rawMap route.RawMap, host, port string) {
 func makePathAbsolute(host, port, p string) string {
 	return fmt.Sprintf("%s:%s%s", host, port, path.Join("/", p))
 }
+
+var (
+	Web = make(route.RouteMap)
+)
+
+var (
+	webRaw = route.RawMap{}
+)
