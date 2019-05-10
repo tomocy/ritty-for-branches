@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"path"
 
+	"github.com/go-chi/chi"
 	"github.com/tomocy/ritty-for-branches/config"
 	"github.com/tomocy/ritty-for-branches/domain/model"
 	"github.com/tomocy/ritty-for-branches/domain/repository"
@@ -33,6 +34,21 @@ func (h *branchHandler) DisposeBranches(w http.ResponseWriter, r *http.Request) 
 		"Branches": converteds,
 	}); err != nil {
 		logInternalServerError(w, "dispose branches", err)
+	}
+}
+
+func (h *branchHandler) DisposeBranch(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	branch, err := h.repo.FindBranch(id)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+	}
+	converted := convertBranchToDispose(branch)
+
+	if err := h.view.Show(w, "", map[string]interface{}{
+		"Branch": converted,
+	}); err != nil {
+		logInternalServerError(w, "dispose branch", err)
 	}
 }
 

@@ -38,6 +38,7 @@ var (
 var (
 	apiRaw = route.RawMap{
 		"branch.index": "/api/branches",
+		"branch.show":  "/api/branches",
 	}
 	webRaw = route.RawMap{
 		"menu.index":             "/menus",
