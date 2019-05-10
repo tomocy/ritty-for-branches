@@ -32,5 +32,7 @@ var (
 )
 
 var (
-	webRaw = route.RawMap{}
+	webRaw = route.RawMap{
+		"menu.new": "/menus/new",
+	}
 )
