@@ -2,6 +2,11 @@ package error
 
 import "fmt"
 
+func InInput(err error) bool {
+	input, ok := err.(input)
+	return ok && input.input()
+}
+
 type input interface {
 	input() bool
 }
