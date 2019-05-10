@@ -11,6 +11,11 @@ type input interface {
 	input() bool
 }
 
+func InInternal(err error) bool {
+	internal, ok := err.(internal)
+	return ok && internal.internal()
+}
+
 type internal interface {
 	internal() bool
 }
