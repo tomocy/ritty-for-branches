@@ -16,14 +16,14 @@ type HTML struct {
 func (h *HTML) mustParseTemplates() {
 	var err error
 	h.caster, err = caster.New(
-		&caster.TemplateSet{}
+		&caster.TemplateSet{},
 	)
 	if err != nil {
 		panic(err)
 	}
 
 	if err := h.caster.ExtendAll(
-		&caster.TemplateSet{},
+		map[string]*caster.TemplateSet{},
 	); err != nil {
 		panic(err)
 	}
