@@ -41,3 +41,9 @@ type httpWebRegistry struct {
 func (r *httpWebRegistry) newHandler() *handler.Handler {
 	return handler.New(r.view, r.db, r.ritty, r.fs)
 }
+
+func newHTTPAPIRegistry() *httpAPIRegistry {
+	return new(httpAPIRegistry)
+}
+
+type httpAPIRegistry struct{}
