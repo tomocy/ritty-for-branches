@@ -31,4 +31,9 @@ func (l *Local) SaveImage(image io.ReadCloser, ext string) (string, error) {
 	return strings.TrimPrefix(path, filepath.Join(projPath, "resource/public")), nil
 }
 
+func (l *Local) DeleteImage(path string) {
+	projPath, _ := filepath.Abs(".")
+	os.Remove(filepath.Join(projPath, "resource/public", path))
+}
+
 const imageDir = "resource/public/image"

@@ -198,6 +198,8 @@ func (h *branchHandler) UpdateMenu(w http.ResponseWriter, r *http.Request) {
 	}
 	if newMenu.ImagePath == "" {
 		newMenu.ImagePath = menu.ImagePath
+	} else {
+		h.storageServ.DeleteImage(menu.ImagePath)
 	}
 
 	if err := branch.UpdateMenu(newCategory, menu, newMenu); err != nil {
