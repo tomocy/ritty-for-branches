@@ -34,10 +34,10 @@ func (e *ValidationError) Error() string {
 	return e.msg
 }
 
-func newBareError(status status, msg string) *bareError {
+func bareErrorf(status status, format string, a ...interface{}) *bareError {
 	return &bareError{
 		status: status,
-		msg:    msg,
+		msg:    fmt.Sprintf(format, a...),
 	}
 }
 
