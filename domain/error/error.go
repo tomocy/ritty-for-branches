@@ -39,3 +39,5 @@ func newBareError() *bareError {
 }
 
 type bareError struct{}
+
+type status int
