@@ -23,6 +23,7 @@ func (h *HTML) mustParseTemplates() {
 		&caster.TemplateSet{
 			Filenames: []string{
 				htmlTemplate("master.html"),
+				htmlTemplate("header.html"),
 			},
 		},
 	)
