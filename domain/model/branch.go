@@ -29,6 +29,21 @@ func (b *Branch) FindMenuCategory(name string) (MenuCategory, error) {
 	return MenuCategory{}, validationErrorf("find menu category", "no such menu")
 }
 
+func (b *Branch) UpdateMenu(c MenuCategory, old, new *Menu) error {
+	if b.CategorizedMenus == nil {
+		b.CategorizedMenus = make(CategorizedMenus)
+	}
+	storeds := b.CategorizedMenus[c]
+	for i, stored := range storeds {
+		if stored.Name == old.Name {
+			b.CategorizedMenus[c][i] = new
+			return nil
+		}
+	}
+
+	return validationErrorf("register menu", "no such menu")
+}
+
 func (b *Branch) FindMenu(c MenuCategory, name string) (*Menu, error) {
 	storeds := b.CategorizedMenus[c]
 	for _, stored := range storeds {

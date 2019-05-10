@@ -2,6 +2,7 @@ package session
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -11,7 +12,7 @@ import (
 )
 
 func SetErrorMessage(w http.ResponseWriter, r *http.Request, msg interface{}) {
-	if err := manager.SetFlash(w, r, errs, msg); err != nil {
+	if err := manager.SetFlash(w, r, errs, fmt.Sprintf("%v", msg)); err != nil {
 		logError("set error message", err)
 	}
 }

@@ -10,9 +10,9 @@
 <div class="container ritty-container">
     {{ template "header" . }}
 
-    <form {{ if .Action }} action="{{ . }}" {{ else }} action="/menus" {{ end }} method="POST" id="menu-form"
+    <form {{ if .Action }} action="{{ .Action }}" {{ else }} action="/menus" {{ end }} method="POST" id="menu-form"
         class="menu-form" enctype="multipart/form-data">
-        {{ template "error" }}
+        {{ template "error" . }}
         {{ with .Method }}
         <input type="hidden" name="_method" value="{{ . }}">
         {{ end }}
