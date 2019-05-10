@@ -10,6 +10,7 @@ import (
 
 func MapRoutes() {
 	mapRoutes(Web, webRaw, config.Current.Self.Host, config.Current.Self.Port)
+	mapRoutes(BranchAuthAPI, branchAuthAPIRaw, config.Current.BranchAuth.Host, config.Current.BranchAuth.Port)
 }
 
 func mapRoutes(routeMap route.RouteMap, rawMap route.RawMap, host, port string) {
@@ -28,11 +29,13 @@ func makePathAbsolute(host, port, p string) string {
 }
 
 var (
-	Web = make(route.RouteMap)
+	Web           = make(route.RouteMap)
+	BranchAuthAPI = make(route.RouteMap)
 )
 
 var (
 	webRaw = route.RawMap{
 		"menu.new": "/menus/new",
 	}
+	branchAuthAPIRaw = route.RawMap{}
 )

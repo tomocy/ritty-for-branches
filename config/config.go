@@ -5,7 +5,8 @@ import "github.com/spf13/viper"
 var Current *Config
 
 type Config struct {
-	Self *Server
+	Self       *Server
+	BranchAuth *Server
 }
 
 type Server struct {
