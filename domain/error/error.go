@@ -54,6 +54,10 @@ func (e *bareError) internal() bool {
 	return e.status == statusInternal
 }
 
+func (e *bareError) Error() string {
+	return e.msg
+}
+
 const (
 	_ status = iota
 	statusInput
