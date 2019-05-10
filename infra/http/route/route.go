@@ -35,6 +35,7 @@ var (
 
 var (
 	webRaw = route.RawMap{
+		"menu.index":             "/menus",
 		"menu.new":               "/menus/new",
 		"authorization_code.new": "/services/ritty/branch/auth/authorization_codes/new",
 		"authorization.new":      "/services/ritty/branch/auth/authorizations/new",

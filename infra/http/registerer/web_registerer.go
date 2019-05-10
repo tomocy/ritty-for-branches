@@ -22,5 +22,16 @@ type WebRegisterer struct {
 func (r *WebRegisterer) RegisterRoutes(router chi.Router) {
 	router.Use(middleware.RenewInvalidSession)
 	router.Get("/*", http.FileServer(http.Dir("resource/public")).ServeHTTP)
-	router.Get(route.Web.Route("menu.new").Path, r.handler.ShowMenuRegistrationForm)
+
+	router.Group(func(router chi.Router) {
+		router.Use(middleware.AcceptAuthenticBranch)
+		router.Get(route.Web.Route("menu.index").Path, r.handler.ShowMenus)
+		router.Get(route.Web.Route("menu.new").Path, r.handler.ShowMenuRegistrationForm)
+	})
+
+	router.Group(func(router chi.Router) {
+		router.Use(middleware.DenyAuthenticBranch)
+		router.Get(route.Web.Route("authorization_code.new").Path, r.handler.FetchAuthorizationCode)
+		router.Get(route.Web.Route("authorization.new").Path, r.handler.FetchAuthorization)
+	})
 }
