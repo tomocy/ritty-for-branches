@@ -1,0 +1,32 @@
+/* Header */
+.header {
+  width: 100%;
+  height: 32px;
+  margin: 0;
+}
+
+.header-title-container,
+.header-link-container {
+  padding: 0;
+}
+
+.header-title {
+  font-family: inherit;
+  font-size: 2em;
+  font-weight: bold;
+  line-height: 32px;
+  margin: 0;
+}
+
+.header-link-container {
+  height: 100%;
+}
+
+.header-link-container {
+  position: relative;
+  top: 5px;
+  line-height: 32px;
+  text-align: right;
+}
+
+/* /Header */
