@@ -24,6 +24,7 @@ func (h *HTML) mustParseTemplates() {
 			Filenames: []string{
 				htmlTemplate("master.html"),
 				htmlTemplate("header.html"),
+				htmlTemplate("error.html"),
 			},
 		},
 	)
