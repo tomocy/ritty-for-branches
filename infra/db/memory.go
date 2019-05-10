@@ -6,9 +6,7 @@ import (
 )
 
 func NewMemory() *Memory {
-	return &Memory{
-		branches: generateBranches(2),
-	}
+	return new(Memory)
 }
 
 type Memory struct {
