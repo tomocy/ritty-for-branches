@@ -1,6 +1,7 @@
 package model
 
 type Branch struct {
-	ID            string
-	Authorization *Authorization
+	ID               string
+	Authorization    *Authorization
+	CategorizedMenus CategorizedMenus
 }
