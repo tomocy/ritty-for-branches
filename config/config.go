@@ -5,6 +5,12 @@ import "github.com/spf13/viper"
 var Current *Config
 
 type Config struct {
+	Self *Server
+}
+
+type Server struct {
+	Host string
+	Port string
 }
 
 func Must(err error) {
