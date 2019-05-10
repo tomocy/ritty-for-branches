@@ -10,6 +10,30 @@ import (
 	"github.com/tomocy/sensei"
 )
 
+func SetErrorMessage(w http.ResponseWriter, r *http.Request, msg interface{}) {
+	if err := manager.SetFlash(w, r, errs, msg); err != nil {
+		logError("set error message", err)
+	}
+}
+
+func GetErrorMessage(w http.ResponseWriter, r *http.Request) string {
+	flashes, err := manager.GetFlashes(w, r, errs)
+	if err != nil {
+		logError("get error messages", err)
+		return ""
+	}
+
+	var msg string
+	for _, flash := range flashes {
+		if s, ok := flash.(string); ok && s != "" {
+			msg = s
+			break
+		}
+	}
+
+	return msg
+}
+
 func KeepBranchAuthenticated(w http.ResponseWriter, r *http.Request, id string) {
 	if err := manager.Set(w, r, authenticBranchID, id); err != nil {
 		logError("keep branch authenticated", err)
@@ -79,6 +103,8 @@ var store = sessions.NewCookieStore(
 
 const (
 	key = "RittyForBranches"
+
+	errs = "errors"
 
 	authenticBranchID = "authentic_branch_id"
 
