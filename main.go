@@ -5,12 +5,15 @@ import (
 
 	"github.com/tomocy/ritty-for-branches/config"
 	"github.com/tomocy/ritty-for-branches/infra/http/registerer"
+	"github.com/tomocy/ritty-for-branches/infra/http/route"
 	"github.com/tomocy/ritty-for-branches/infra/http/server"
 	"github.com/tomocy/ritty-for-branches/registry"
 )
 
 func main() {
 	config.Must(config.Load("./config.yml"))
+
+	route.MapRoutes()
 
 	addr := ":" + config.Current.Self.Port
 	registry := registry.NewHTTPRegistry()
