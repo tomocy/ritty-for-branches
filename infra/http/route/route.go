@@ -9,6 +9,7 @@ import (
 )
 
 func MapRoutes() {
+	mapRoutes(API, apiRaw, config.Current.Self.Host, config.Current.Self.Port)
 	mapRoutes(Web, webRaw, config.Current.Self.Host, config.Current.Self.Port)
 	mapRoutes(RittyBranchAuthAPI, rittyBranchAuthAPIRaw, config.Current.RittyBranchAuth.Host, config.Current.RittyBranchAuth.Port)
 }
@@ -29,11 +30,15 @@ func makePathAbsolute(host, port, p string) string {
 }
 
 var (
+	API                = make(route.RouteMap)
 	Web                = make(route.RouteMap)
 	RittyBranchAuthAPI = make(route.RouteMap)
 )
 
 var (
+	apiRaw = route.RawMap{
+		"branch.index": "/api/branches",
+	}
 	webRaw = route.RawMap{
 		"menu.index":             "/menus",
 		"menu.new":               "/menus/new",
