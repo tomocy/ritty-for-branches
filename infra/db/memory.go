@@ -13,6 +13,10 @@ type Memory struct {
 	branches []*model.Branch
 }
 
+func (m *Memory) GetBranches() []*model.Branch {
+	return m.branches
+}
+
 func (m *Memory) FindBranch(id string) (*model.Branch, error) {
 	for _, stored := range m.branches {
 		if stored.ID == id {

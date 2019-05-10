@@ -17,8 +17,9 @@ func main() {
 
 	addr := ":" + config.Current.Self.Port
 	registry := registry.NewHTTPRegistry()
+	apiRegi := registerer.NewAPIRegisterer(registry.NewAPIHandler())
 	webRegi := registerer.NewWebRegisterer(registry.NewWebHandler())
-	server := server.New(webRegi)
+	server := server.New(apiRegi, webRegi)
 	if err := server.ListenAndServe(addr); err != nil {
 		log.Printf("failed to listen and serve: %s\n", err)
 	}
