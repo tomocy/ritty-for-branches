@@ -6,6 +6,10 @@ type input interface {
 	input() bool
 }
 
+type internal interface {
+	internal() bool
+}
+
 func ValidationErrorf(format string, a ...interface{}) *ValidationError {
 	return &ValidationError{
 		msg: fmt.Sprintf(format, a...),
