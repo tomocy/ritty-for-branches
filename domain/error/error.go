@@ -34,11 +34,17 @@ func (e *ValidationError) Error() string {
 	return e.msg
 }
 
-func newBareError() *bareError {
-	return new(bareError)
+func newBareError(status status, msg string) *bareError {
+	return &bareError{
+		status: status,
+		msg:    msg,
+	}
 }
 
-type bareError struct{}
+type bareError struct {
+	status status
+	msg    string
+}
 
 const (
 	_ status = iota
