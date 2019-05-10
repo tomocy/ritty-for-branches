@@ -46,6 +46,14 @@ type bareError struct {
 	msg    string
 }
 
+func (e *bareError) input() bool {
+	return e.status == statusInput
+}
+
+func (e *bareError) internal() bool {
+	return e.status == statusInternal
+}
+
 const (
 	_ status = iota
 	statusInput
