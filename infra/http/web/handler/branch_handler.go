@@ -341,3 +341,38 @@ func convertRequestToCombos(r *http.Request, key string) ([]*model.Combo, error)
 
 	return combos, nil
 }
+
+func (h *branchHandler) DeleteMenu(w http.ResponseWriter, r *http.Request) {
+	id, err := session.FindAuthenticBranch(r)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	branch, err := h.repo.FindBranch(id)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	cname := chi.URLParam(r, "category_name")
+	category, err := branch.FindMenuCategory(cname)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	name := chi.URLParam(r, "name")
+	menu, err := branch.FindMenu(category, name)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	h.storageServ.DeleteImage(menu.ImagePath)
+	branch.DeleteMenu(category, name)
+
+	if err := h.repo.SaveBranch(branch); err != nil {
+		logInternalServerError(w, "delete menu", err)
+	}
+
+	redirect(w, r, route.Web.Route("menu.index").String())
+}

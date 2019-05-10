@@ -14,7 +14,7 @@
         class="menu-form" enctype="multipart/form-data">
         {{ template "error" . }}
         {{ with .Method }}
-        <input type="hidden" name="_method" value="{{ . }}">
+        <input type="hidden" name="_method" value="{{ . }}" id="method-input">
         {{ end }}
         <div class="form-group">
             <input type="text" name="category_name" class="form-control" placeholder="Menu category name"
@@ -120,7 +120,7 @@
                     <h1 class="ritty-btn-box-title">Save</h1>
                 </button>
             </li>
-            <li class="col-6" {{ if .Menu.Name }} {{ else }} hidden {{ end }}>
+            <li class="col-6" {{ if not .Menu.Name }} hidden {{ end }}>
                 <div {{ if .Menu.Name }} id="delete-menu-btn" {{ end }} class="ritty-btn-box delete-menu-btn">
                     <h1 class="ritty-btn-box-title delete-menu-btn-title">Delete</h1>
                 </div>

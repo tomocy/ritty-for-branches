@@ -54,3 +54,16 @@ func (b *Branch) FindMenu(c MenuCategory, name string) (*Menu, error) {
 
 	return nil, validationErrorf("register menu", "no such menu")
 }
+
+func (b *Branch) DeleteMenu(c MenuCategory, name string) {
+	if b.CategorizedMenus == nil {
+		b.CategorizedMenus = make(CategorizedMenus)
+	}
+	storeds := b.CategorizedMenus[c]
+	for i, stored := range storeds {
+		if stored.Name == name {
+			b.CategorizedMenus[c] = append(b.CategorizedMenus[c][:i], b.CategorizedMenus[c][i+1:]...)
+			return
+		}
+	}
+}
