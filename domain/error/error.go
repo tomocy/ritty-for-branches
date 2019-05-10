@@ -2,6 +2,10 @@ package error
 
 import "fmt"
 
+type input interface {
+	input() bool
+}
+
 func ValidationErrorf(format string, a ...interface{}) *ValidationError {
 	return &ValidationError{
 		msg: fmt.Sprintf(format, a...),
