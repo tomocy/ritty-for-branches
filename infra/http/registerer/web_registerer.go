@@ -32,6 +32,7 @@ func (r *WebRegisterer) RegisterRoutes(router chi.Router) {
 
 		router.Group(func(router chi.Router) {
 			router.Use(middleware.AcceptAuthenticBranch)
+			router.Get(route.Web.Route("profile.index").Path, r.handler.ShowProfile)
 			router.Get(route.Web.Route("menu.index").Path, r.handler.ShowMenus)
 			router.Get(route.Web.Route("menu.new").Path, r.handler.ShowMenuRegistrationForm)
 			router.Post(route.Web.Route("menu.create").Path, r.handler.RegisterMenu)
