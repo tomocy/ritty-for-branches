@@ -42,6 +42,7 @@ var (
 	}
 	webRaw = route.RawMap{
 		"profile.index":          "/",
+		"profile.update":         "/",
 		"menu.index":             "/menus",
 		"menu.new":               "/menus/new",
 		"menu.create":            "/menus",
