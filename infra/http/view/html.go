@@ -40,6 +40,11 @@ func (h *HTML) mustParseTemplates() {
 
 	if err := h.caster.ExtendAll(
 		map[string]*caster.TemplateSet{
+			"profile.index": &caster.TemplateSet{
+				Filenames: []string{
+					htmlTemplate("profile/index.html"),
+				},
+			},
 			"menu.index": &caster.TemplateSet{
 				Filenames: []string{
 					htmlTemplate("menu/index.html"),

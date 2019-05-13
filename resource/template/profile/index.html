@@ -1,0 +1,105 @@
+{{ define "css" }}
+<link rel="stylesheet" href="/css/ritty.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/profile/index.css">
+{{ end }}
+
+{{ define "content" }}
+<div class="container ritty-container">
+    {{ template "header" . }}
+
+    <div class="profile-form-container">
+        <h1 class="title">Profile</h1>
+        <form action="" class="h-adr form">
+            <div class="row profile">
+                <div class="col-12 col-sm-4 col-md-3 ritty-btn-border">
+                    <label for="img-input" class="img-input-label img">
+                        <h1 class="ritty-btn-border-title">+ Branch image
+                        </h1>
+                    </label>
+                    <input type="file" name="image" class="form-control-file" id="img-input" hidden>
+                </div>
+                <div class="col-12 col-sm-8 col-md-9 profile-txt-container">
+                    <p class="name">{{ .Branch.ID }}</p>
+                </div>
+            </div>
+            <div class="group">
+                <p>Opening hours</p>
+                <div class="row">
+                    <div class="col-12 col-sm-6 form-group">
+                        <input type="text" id="from-hour-input" class="form-control datetimepicker-input"
+                            placeholder="From" data-toggle="datetimepicker" data-target="#from-hour-input">
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                        <input type="text" id="to-hour-input" class="form-control datetimepicker-input" placeholder="To"
+                            data-toggle="datetimepicker" data-target="#to-hour-input">
+                    </div>
+                </div>
+            </div>
+            <div class="group">
+                <p>Opening days</p>
+                <div class="text-center">
+                    <div class="form-check form-check-inline">
+                        <input type="checkbox" name="opening_days[]" id="opening-days-sun" class="form-check-input"
+                            value="sun">
+                        <label for="opening-days-sun" class="form-check-label">Sun</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="checkbox" name="opening_days[]" id="opening-days-mon" class="form-check-input"
+                            value="mon">
+                        <label for="opening-days-mon" class="form-check-label">Mon</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="checkbox" name="opening_days[]" id="opening-days-tue" class="form-check-input"
+                            value="tue">
+                        <label for="opening-days-tue" class="form-check-label">Tue</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="checkbox" name="opening_days[]" id="opening-days-wed" class="form-check-input"
+                            value="wed">
+                        <label for="opening-days-wed" class="form-check-label">Wed</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="checkbox" name="opening_days[]" id="opening-days-thu" class="form-check-input"
+                            value="thu">
+                        <label for="opening-days-thu" class="form-check-label">Thu</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="checkbox" name="opening_days[]" id="opening-days-fri" class="form-check-input"
+                            value="fri">
+                        <label for="opening-days-fri" class="form-check-label">Fri</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="checkbox" name="opening_days[]" id="opening-days-sat" class="form-check-input"
+                            value="6">
+                        <label for="opening-days-sat" class="form-check-label">Sat</label>
+                    </div>
+                </div>
+            </div>
+            <div class="group">
+                <p>Location</p>
+                <div class="row">
+                    <div class="col-12 col-sm-6 form-group">
+                        <input type="text" class="form-control" placeholder="Latitude">
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                        <input type="text" class="form-control" placeholder="Longitude">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <button type="submit" class="ritty-btn-box save-btn">
+                        <h1 class="ritty-btn-box-title">Save</h1>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{{ end }}
+
+{{ define "js" }}
+<script src="/js/profile/index.js"></script>
+{{ end }}
