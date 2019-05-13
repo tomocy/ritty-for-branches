@@ -9,7 +9,7 @@ $(function () {
             return false
         }
 
-        reader.onload = (function (file) {
+        reader.onload = (function () {
             return function (e) {
                 $preview.css('backgroundImage', `url('${e.target.result}')`)
             }

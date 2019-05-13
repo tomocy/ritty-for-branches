@@ -19,6 +19,8 @@ type APIRegisterer struct {
 }
 
 func (r *APIRegisterer) RegisterRoutes(router chi.Router) {
-	router.Get(route.API.Route("branch.index").Path, r.handler.DisposeBranches)
-	router.Get(path.Join(route.API.Route("branch.show").Path, "{id}"), r.handler.DisposeBranch)
+	router.Group(func(router chi.Router) {
+		router.Get(route.API.Route("branch.index").Path, r.handler.DisposeBranches)
+		router.Get(path.Join(route.API.Route("branch.show").Path, "{id}"), r.handler.DisposeBranch)
+	})
 }

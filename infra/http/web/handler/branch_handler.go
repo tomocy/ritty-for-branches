@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"path/filepath"
 	"strconv"
+	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/thedevsaddam/govalidator"
@@ -49,9 +50,123 @@ func (h *branchHandler) ShowProfile(w http.ResponseWriter, r *http.Request) {
 
 	if err := h.view.Show(w, "profile.index", map[string]interface{}{
 		"Branch": branch,
+		"Error":  session.GetErrorMessage(w, r),
 	}); err != nil {
 		logInternalServerError(w, "show profile", err)
 	}
+}
+
+func (h *branchHandler) UpdateProfile(w http.ResponseWriter, r *http.Request) {
+	id, err := session.FindAuthenticBranch(r)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	branch, err := h.repo.FindBranch(id)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	if err := validateRequestToUpdateProfile(r); err != nil {
+		session.SetErrorMessage(w, r, err)
+		redirect(w, r, route.Web.Route("profile.index").String())
+		return
+	}
+	imgPath, dates, loc, err := h.convertRequestToProfile(r)
+	if err != nil {
+		session.SetErrorMessage(w, r, err)
+		redirect(w, r, route.Web.Route("profile.index").String())
+		return
+	}
+	if branch.ImagePath == "" && imgPath == "" {
+		session.SetErrorMessage(w, r, "Branch image is required")
+		redirect(w, r, route.Web.Route("profile.index").String())
+		return
+	}
+	if imgPath != "" {
+		h.storageServ.DeleteImage(branch.ImagePath)
+		branch.UpdateImagePath(imgPath)
+	}
+	branch.UpdateOpeningDates(dates)
+	branch.UpdateLocation(loc)
+	if err := h.repo.SaveBranch(branch); err != nil {
+		logInternalServerError(w, "update profile", err)
+		return
+	}
+
+	redirect(w, r, route.Web.Route("profile.index").String())
+}
+
+func validateRequestToUpdateProfile(r *http.Request) error {
+	names := []string{
+		"from", "to", "latitude", "longitude",
+	}
+	options := govalidator.Options{
+		Request: r,
+		Rules: govalidator.MapData{
+			"file:image": []string{"required", "mime:image/jpeg,image/jpg,image/png"},
+			"from":       []string{"required"},
+			"to":         []string{"required"},
+			"latitude":   []string{"required"},
+			"longitude":  []string{"required"},
+		},
+	}
+
+	if err := validate(names, options); err != nil {
+		return validationErrorf("validate request to update profile", err)
+	}
+
+	return nil
+}
+
+func (h *branchHandler) convertRequestToProfile(r *http.Request) (string, []*model.OpeningDate, *model.Location, error) {
+	var imagePath string
+	image, header, err := r.FormFile("image")
+	if err == nil {
+		imagePath, err = h.storageServ.SaveImage(image, filepath.Ext(header.Filename))
+		if err != nil {
+			return "", nil, nil, devErrorf("convert request to update profile", err)
+		}
+	}
+
+	from, err := time.Parse("15:04", r.FormValue("from"))
+	if err != nil {
+		return "", nil, nil, validationErrorf("convert request to update profile", err)
+	}
+	to, err := time.Parse("15:04", r.FormValue("to"))
+	if err != nil {
+		return "", nil, nil, validationErrorf("convert request to update profile", err)
+	}
+
+	dayStrs := r.Form["opening_days[]"]
+	dates := make([]*model.OpeningDate, len(dayStrs))
+	for i, dayStr := range dayStrs {
+		day, err := strconv.ParseUint(dayStr, 10, 32)
+		if err != nil {
+			return "", nil, nil, devErrorf("convert request to update profile", err)
+		}
+		dates[i] = &model.OpeningDate{
+			Day:  uint(day),
+			From: from,
+			To:   to,
+		}
+	}
+
+	lat, err := strconv.ParseFloat(r.FormValue("latitude"), 32)
+	if err != nil {
+		return "", nil, nil, validationErrorf("convert request to update profile", err)
+	}
+	lng, err := strconv.ParseFloat(r.FormValue("longitude"), 32)
+	if err != nil {
+		return "", nil, nil, validationErrorf("convert request to update profile", err)
+	}
+	loc := &model.Location{
+		Latitude:  float32(lat),
+		Longitude: float32(lng),
+	}
+
+	return imagePath, dates, loc, nil
 }
 
 func (h *branchHandler) ShowMenus(w http.ResponseWriter, r *http.Request) {

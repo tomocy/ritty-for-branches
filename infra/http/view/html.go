@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/tomocy/caster"
+	"github.com/tomocy/ritty-for-branches/domain/model"
 )
 
 func NewHTML() *HTML {
@@ -43,6 +44,31 @@ func (h *HTML) mustParseTemplates() {
 			"profile.index": &caster.TemplateSet{
 				Filenames: []string{
 					htmlTemplate("profile/index.html"),
+				},
+				FuncMap: template.FuncMap{
+					"from": func(b *model.Branch) string {
+						if 1 <= len(b.OpeningDates) {
+							return b.OpeningDates[0].From.Format("15:04")
+						}
+
+						return ""
+					},
+					"to": func(b *model.Branch) string {
+						if 1 <= len(b.OpeningDates) {
+							return b.OpeningDates[0].To.Format("15:04")
+						}
+
+						return ""
+					},
+					"isOpen": func(b *model.Branch, day uint) bool {
+						for _, date := range b.OpeningDates {
+							if date.Day == day {
+								return true
+							}
+						}
+
+						return false
+					},
 				},
 			},
 			"menu.index": &caster.TemplateSet{

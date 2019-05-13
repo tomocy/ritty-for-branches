@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/tomocy/chme"
+
 	"github.com/go-chi/chi"
 	"github.com/tomocy/ritty-for-branches/infra/http/registerer"
 )
@@ -27,7 +29,12 @@ func (s *Server) ListenAndServe(addr string) error {
 }
 
 func (s *Server) registerRoutes() {
+	s.guardRoutes()
 	for _, r := range s.registerers {
 		r.RegisterRoutes(s.router)
 	}
+}
+
+func (s *Server) guardRoutes() {
+	s.router.Use(chme.ChangePostToHiddenMethod)
 }

@@ -1,4 +1,6 @@
 {{ define "css" }}
+<link
+    href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css">
 <link rel="stylesheet" href="/css/ritty.css">
 <link rel="stylesheet" href="/css/header.css">
 <link rel="stylesheet" href="/css/profile/index.css">
@@ -10,11 +12,14 @@
 
     <div class="profile-form-container">
         <h1 class="title">Profile</h1>
-        <form action="" class="h-adr form">
+        <form action="/" method="POST" class="form" enctype="multipart/form-data">
+            {{ template "error" . }}
+            <input type="hidden" name="_method" value="PUT">
             <div class="row profile">
                 <div class="col-12 col-sm-4 col-md-3 ritty-btn-border">
-                    <label for="img-input" class="img-input-label img">
-                        <h1 class="ritty-btn-border-title">+ Branch image
+                    <label for="img-input" class="img-input-label img" {{ with .Branch.ImagePath }}
+                        style="background-image: url('{{ . }}');" {{ end }}>
+                        <h1 class="ritty-btn-border-title" {{ with .Branch.ImagePath }} hidden {{ end }}>+ Branch image
                         </h1>
                     </label>
                     <input type="file" name="image" class="form-control-file" id="img-input" hidden>
@@ -27,51 +32,51 @@
                 <p>Opening hours</p>
                 <div class="row">
                     <div class="col-12 col-sm-6 form-group">
-                        <input type="text" id="from-hour-input" class="form-control datetimepicker-input"
-                            placeholder="From" data-toggle="datetimepicker" data-target="#from-hour-input">
+                        <input type="text" name="from" class="form-control" placeholder="10:00" {{ with .Branch }}
+                            value="{{ from . }}" {{ end }}>
                     </div>
                     <div class="col-12 col-sm-6 form-group">
-                        <input type="text" id="to-hour-input" class="form-control datetimepicker-input" placeholder="To"
-                            data-toggle="datetimepicker" data-target="#to-hour-input">
+                        <input type="text" name="to" class="form-control" placeholder="20:00" {{ with .Branch }}
+                            value="{{ to . }}" {{ end }}>
                     </div>
                 </div>
             </div>
-            <div class="group">
+            <div class=" group">
                 <p>Opening days</p>
                 <div class="text-center">
                     <div class="form-check form-check-inline">
                         <input type="checkbox" name="opening_days[]" id="opening-days-sun" class="form-check-input"
-                            value="sun">
+                            value="0" {{ with .Branch }} {{ if isOpen . 0 }} checked {{ end }} {{ end }}>
                         <label for="opening-days-sun" class="form-check-label">Sun</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input type="checkbox" name="opening_days[]" id="opening-days-mon" class="form-check-input"
-                            value="mon">
+                            value="1" {{ with .Branch }} {{ if isOpen . 1 }} checked {{ end }} {{ end }}>
                         <label for="opening-days-mon" class="form-check-label">Mon</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input type="checkbox" name="opening_days[]" id="opening-days-tue" class="form-check-input"
-                            value="tue">
+                            value="2" {{ with .Branch }} {{ if isOpen . 2 }} checked {{ end }} {{ end }}>
                         <label for="opening-days-tue" class="form-check-label">Tue</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input type="checkbox" name="opening_days[]" id="opening-days-wed" class="form-check-input"
-                            value="wed">
+                            value="3" {{ with .Branch }} {{ if isOpen . 3 }} checked {{ end }} {{ end }}>
                         <label for="opening-days-wed" class="form-check-label">Wed</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input type="checkbox" name="opening_days[]" id="opening-days-thu" class="form-check-input"
-                            value="thu">
+                            value="4" {{ with .Branch }} {{ if isOpen . 4 }} checked {{ end }} {{ end }}>
                         <label for="opening-days-thu" class="form-check-label">Thu</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input type="checkbox" name="opening_days[]" id="opening-days-fri" class="form-check-input"
-                            value="fri">
+                            value="5" {{ with .Branch }} {{ if isOpen . 5 }} checked {{ end }} {{ end }}>
                         <label for="opening-days-fri" class="form-check-label">Fri</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input type="checkbox" name="opening_days[]" id="opening-days-sat" class="form-check-input"
-                            value="6">
+                            value="6" {{ with .Branch }} {{ if isOpen . 6 }} checked {{ end }} {{ end }}>
                         <label for="opening-days-sat" class="form-check-label">Sat</label>
                     </div>
                 </div>
@@ -80,10 +85,12 @@
                 <p>Location</p>
                 <div class="row">
                     <div class="col-12 col-sm-6 form-group">
-                        <input type="text" class="form-control" placeholder="Latitude">
+                        <input type="text" name="latitude" class="form-control" placeholder="Latitude"
+                            {{ with .Branch.Location }} value="{{ .Latitude }}" {{ end }}>
                     </div>
-                    <div class="col-12 col-sm-6 form-group">
-                        <input type="text" class="form-control" placeholder="Longitude">
+                    <div class=" col-12 col-sm-6 form-group">
+                        <input type="text" name="longitude" class="form-control" placeholder="Longitude"
+                            {{ with .Branch.Location }} value="{{ .Longitude }}" {{ end }}>
                     </div>
                 </div>
             </div>

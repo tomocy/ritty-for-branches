@@ -2,8 +2,23 @@ package model
 
 type Branch struct {
 	ID               string
+	ImagePath        string
 	Authorization    *Authorization
+	OpeningDates     []*OpeningDate
+	Location         *Location
 	CategorizedMenus CategorizedMenus
+}
+
+func (b *Branch) UpdateImagePath(path string) {
+	b.ImagePath = path
+}
+
+func (b *Branch) UpdateOpeningDates(dates []*OpeningDate) {
+	b.OpeningDates = dates
+}
+
+func (b *Branch) UpdateLocation(loc *Location) {
+	b.Location = loc
 }
 
 func (b *Branch) RegisterMenu(c MenuCategory, menu *Menu) error {

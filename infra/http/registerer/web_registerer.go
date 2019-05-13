@@ -4,8 +4,6 @@ import (
 	"net/http"
 	"path"
 
-	"github.com/tomocy/chme"
-
 	"github.com/go-chi/chi"
 	"github.com/tomocy/ritty-for-branches/infra/http/middleware"
 	"github.com/tomocy/ritty-for-branches/infra/http/route"
@@ -26,13 +24,13 @@ func (r *WebRegisterer) RegisterRoutes(router chi.Router) {
 	router.Group(func(router chi.Router) {
 		router.Use(
 			middleware.RenewInvalidSession,
-			chme.ChangePostToHiddenMethod,
 		)
 		router.Get("/*", http.FileServer(http.Dir("resource/public")).ServeHTTP)
 
 		router.Group(func(router chi.Router) {
 			router.Use(middleware.AcceptAuthenticBranch)
 			router.Get(route.Web.Route("profile.index").Path, r.handler.ShowProfile)
+			router.Put(route.Web.Route("profile.update").Path, r.handler.UpdateProfile)
 			router.Get(route.Web.Route("menu.index").Path, r.handler.ShowMenus)
 			router.Get(route.Web.Route("menu.new").Path, r.handler.ShowMenuRegistrationForm)
 			router.Post(route.Web.Route("menu.create").Path, r.handler.RegisterMenu)
